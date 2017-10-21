@@ -1,4 +1,7 @@
-# OrganicShopA4
+# Organic Shop 
+
+Curso: https://www.udemy.com/the-complete-angular-master-class/
+Seccion: 19
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.2.
 

@@ -2,6 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { FormsModule } from "@angular/forms";
 import { AppComponent } from "./app.component";
 import { AngularFireModule } from "angularfire2";
 import { AngularFireDatabaseModule } from "angularfire2/database";
@@ -21,6 +22,11 @@ import { AuthService } from "./auth.service";
 import { AuthGuard } from "./auth-guard.service";
 import { UserService } from "./user.service";
 import { AdminAuthGuard } from "./admin-auth-guard.service";
+import { ProductFormComponent } from "./admin/product-form/product-form.component";
+import { CategoryService } from "./category.service";
+import { ProductService } from "./product.service";
+import { CustomFormsModule } from "ng2-validation";
+import { DataTableModule } from "angular-4-data-table";
 
 @NgModule({
     declarations: [
@@ -34,13 +40,17 @@ import { AdminAuthGuard } from "./admin-auth-guard.service";
         MyOrdersComponent,
         AdminProductsComponent,
         AdminOrdersComponent,
-        LoginComponent
+        LoginComponent,
+        ProductFormComponent
     ],
     imports: [
         BrowserModule,
+        FormsModule,
+        CustomFormsModule,
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
+        DataTableModule,
         NgbModule.forRoot(),
         RouterModule.forRoot([
             { path: "", component: HomeComponent },
@@ -52,15 +62,27 @@ import { AdminAuthGuard } from "./admin-auth-guard.service";
             { path: "check-out", component: CheckOutComponent, canActivate: [ AuthGuard ] },
             { path: "order-completada", component: OrderSuccessComponent, canActivate: [ AuthGuard ] },
 
+            { path: "admin/pedidos", component: AdminOrdersComponent, canActivate: [ AuthGuard, AdminAuthGuard ] },
             { path: "admin/productos", component: AdminProductsComponent, canActivate: [ AuthGuard, AdminAuthGuard ] },
-            { path: "admin/pedidos", component: AdminOrdersComponent, canActivate: [ AuthGuard, AdminAuthGuard ] }
+            {
+                path: "admin/productos/nuevo",
+                component: ProductFormComponent,
+                canActivate: [ AuthGuard, AdminAuthGuard ]
+            },
+            {
+                path: "admin/productos/:id",
+                component: ProductFormComponent,
+                canActivate: [ AuthGuard, AdminAuthGuard ]
+            }
         ])
     ],
     providers: [
         AuthService,
         AuthGuard,
         AdminAuthGuard,
-        UserService
+        UserService,
+        CategoryService,
+        ProductService
     ],
     bootstrap: [ AppComponent ]
 })

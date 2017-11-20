@@ -12,25 +12,14 @@ export class ShoppingCartService {
         let cartId = await this.getOrCreateCartId();
         let item$ = this.getItem(cartId, product.id);
         item$.snapshotChanges().take(1).subscribe(item => {
-            // if (item.payload.exists()) {
-            //     console.log("existe");
-                item$.update({ product: {
+            item$.update({
+                product: {
                     title: product.title,
                     price: product.price,
                     category: product.category,
                     imageUrl: product.imageUrl
-                }, quantity: (item.payload.val() ? item.payload.val().quantity + 1 : 1) });
-            /*} else {
-                console.log("no existe");
-                item$.set({
-                    product: {
-                        title: product.title,
-                        price: product.price,
-                        category: product.category,
-                        imageUrl: product.imageUrl
-                    }, quantity: 1
-                });
-            }*/
+                }, quantity: (item.payload.val() ? item.payload.val().quantity + 1 : 1)
+            });
         });
 
     }
@@ -41,7 +30,8 @@ export class ShoppingCartService {
         });
     }
 
-    private getCart(cartId: string) {
+    async getCart() {
+        let cartId = await this.getOrCreateCartId();
         return this.db.object("/shopping-carts/" + cartId);
     }
 
@@ -49,7 +39,7 @@ export class ShoppingCartService {
         return this.db.object("/shopping-carts/" + cartId + "/items/" + productId);
     }
 
-    private async getOrCreateCartId() {
+    private async getOrCreateCartId(): Promise<string> {
         let cartId = localStorage.getItem("cartId");
         if (!cartId) {
             let result = await this.create();

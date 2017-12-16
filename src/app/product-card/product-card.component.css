@@ -9,3 +9,7 @@
 .card-img-top {
     max-height: 200px;
 }
+
+.card-footer button {
+     cursor : pointer;
+ }

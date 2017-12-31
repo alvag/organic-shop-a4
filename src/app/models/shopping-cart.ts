@@ -2,18 +2,16 @@ import { ShoppingCartItem } from "./shopping-cart-item";
 import { Product } from "./product";
 
 export class ShoppingCart {
-    items: ShoppingCartItem[]= [];
+    items: ShoppingCartItem[] = [];
 
     constructor(public cart) {
-        for (let productId in this.cart.items) {
-            let item = this.cart.items[productId];
-            this.items.push(new ShoppingCartItem(item.product, item.quantity));
-        }
-    }
+        this.cart.items = this.cart.items || {};
 
-    getQuantity(product: Product) {
-        let item = this.cart.items[product.id];
-        return item ? item.quantity : 0;
+        for (let productId in this.cart.items) {
+            let item = this.cart.items[ productId ];
+            this.items.push(new ShoppingCartItem({ ...item, id: productId }));
+        }
+
     }
 
     get totalItemsCount() {
@@ -27,8 +25,13 @@ export class ShoppingCart {
     get totalPrice() {
         let sum = 0;
         for (let productId in this.items) {
-            sum += this.items[productId].totalPrice;
+            sum += this.items[ productId ].totalPrice;
         }
         return sum;
+    }
+
+    public getQuantity(product: Product) {
+        let item = this.cart.items[ product.id ];
+        return item ? item.quantity : 0;
     }
 }

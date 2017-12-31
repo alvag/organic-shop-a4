@@ -1,6 +1,6 @@
 <h1>Shopping Cart</h1>
 
-<ng-container *ngIf="cart">
+<div class="row col-10" *ngIf="cart">
     <p>
         Tu tienes {{cart.totalItemsCount}} items en tu carrito de compras.
     </p>
@@ -8,26 +8,37 @@
     <table class="table">
         <thead>
         <tr>
+            <th></th>
             <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
+            <th class="text-center" style="width: 230px">Cantidad</th>
+            <th class="text-right" style="width: 200px">Precio</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of cart.items">
+            <td>
+                <div [style.backgroundImage]="'url(' + item.imageUrl + ')'" class="thumbnail"></div>
+            </td>
             <td>{{item.title}}</td>
             <td>
                 <product-quantity [product]="item" [shopping-cart]="cart"></product-quantity>
             </td>
-            <td>{{item.totalPrice | currency:'USD':true}}</td>
+            <td class="text-right">
+                {{item.totalPrice | currency:'USD':true}}
+            </td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
             <th></th>
             <th></th>
-            <th>{{cart.totalPrice | currency:'USD':true}}</th>
+            <th></th>
+            <th class="text-right">{{cart.totalPrice | currency:'USD':true}}</th>
         </tr>
         </tfoot>
     </table>
-</ng-container>
+
+    <button
+        (click)="clearCart()"
+        class="btn btn-danger btn-sm">Eliminar productos</button>
+</div>

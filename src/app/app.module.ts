@@ -30,7 +30,10 @@ import { DataTableModule } from "angular-4-data-table";
 import { ProductFilterComponent } from "./products/product-filter/product-filter.component";
 import { ProductCardComponent } from "./product-card/product-card.component";
 import { ShoppingCartService } from "./shopping-cart.service";
-import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { ProductQuantityComponent } from "./product-quantity/product-quantity.component";
+import { OrderService } from "./order.service";
+import { ShoppingCartSummaryComponent } from "./shopping-cart-summary/shopping-cart-summary.component";
+import { ShippingFormComponent } from './shipping-form/shipping-form.component';
 
 @NgModule({
     declarations: [
@@ -48,7 +51,9 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
         ProductFormComponent,
         ProductFilterComponent,
         ProductCardComponent,
-        ProductQuantityComponent
+        ProductQuantityComponent,
+        ShoppingCartSummaryComponent,
+        ShippingFormComponent
     ],
     imports: [
         BrowserModule,
@@ -67,7 +72,7 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
 
             { path: "mis-pedidos", component: MyOrdersComponent, canActivate: [ AuthGuard ] },
             { path: "check-out", component: CheckOutComponent, canActivate: [ AuthGuard ] },
-            { path: "order-completada", component: OrderSuccessComponent, canActivate: [ AuthGuard ] },
+            { path: "orden-completada/:id", component: OrderSuccessComponent, canActivate: [ AuthGuard ] },
 
             { path: "admin/pedidos", component: AdminOrdersComponent, canActivate: [ AuthGuard, AdminAuthGuard ] },
             { path: "admin/productos", component: AdminProductsComponent, canActivate: [ AuthGuard, AdminAuthGuard ] },
@@ -90,7 +95,8 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
         UserService,
         CategoryService,
         ProductService,
-        ShoppingCartService
+        ShoppingCartService,
+        OrderService
     ],
     bootstrap: [ AppComponent ]
 })

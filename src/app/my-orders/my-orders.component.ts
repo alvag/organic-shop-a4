@@ -1,15 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
+import { AuthService } from "../auth.service";
+import { OrderService } from "../order.service";
 
 @Component({
-  selector: 'app-my-orders',
-  templateUrl: './my-orders.component.html',
-  styleUrls: ['./my-orders.component.css']
+    selector: "app-my-orders",
+    templateUrl: "./my-orders.component.html",
+    styleUrls: [ "./my-orders.component.css" ]
 })
-export class MyOrdersComponent implements OnInit {
+export class MyOrdersComponent {
 
-  constructor() { }
+    orders;
 
-  ngOnInit() {
-  }
+    constructor(private authService: AuthService,
+                private orderService: OrderService) {
+
+        // this.orders$ = authService.user$.switchMap(u => orderService.getOrdersByUser(u.uid));
+        authService.user$.subscribe(u => {
+            this.orderService.getOrdersByUser(u.uid).valueChanges().subscribe(orders => {
+                this.orders = orders;
+                console.log(this.orders);
+            });
+        });
+        // this.orders$ = authService.user$.subscribe(u => orderService.getOrdersByUser(u.uid));
+    }
 
 }

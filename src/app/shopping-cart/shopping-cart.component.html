@@ -3,6 +3,10 @@
 <div class="row col-10" *ngIf="cart">
     <p>
         Tu tienes {{cart.totalItemsCount}} items en tu carrito de compras.
+        <button
+            *ngIf="cart.items.length"
+            (click)="clearCart()"
+            class="btn btn-light btn-sm">Eliminar productos</button>
     </p>
 
     <table class="table">
@@ -38,7 +42,5 @@
         </tfoot>
     </table>
 
-    <button
-        (click)="clearCart()"
-        class="btn btn-danger btn-sm">Eliminar productos</button>
+    <a routerLink="/check-out" *ngIf="cart.items.length" class="btn btn-primary">Pagar</a>
 </div>
